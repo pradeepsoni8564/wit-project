@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upper Half with Overlapping Boxes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Upper Half Section */
+        .upper-half {
+            height: 50vh;
+            width: 100%;
+            background-color: #4994bc;
+            background-size: cover;
+            opacity: 0.9;
+            display: flex;
+            align-items: center;
+            padding-left: 50px;
+            color: black;
+            font-size: 60px;
+            font-weight: bold;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        /* Text Container Positioned on the Left */
+        .upper-text-container {
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .text1 {
+            font-size: 60px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .text2 {
+            font-size: 40px;
+            font-weight: normal;
+            max-width: 700px;
+        }
+
+        /* Lower Half Section */
+        .lower-half {
+            height: 50vh;
+            width: 100%;
+            display: flex;
+            background-color: #e0f0f4;
+            align-items: center;
+            justify-content: center;
+            gap: 50px; /* Space between boxes */
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Boxes that Overlap the Upper Half */
+        .box {
+            width: 40%;
+            height: 80%;
+            background: #c6e2e9;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column; /* Stack elements vertically */
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: black;
+            text-align: center;
+            padding: 30px;
+            position: relative;
+            top: -20%; /* Moves the box upwards to overlap */
+        }
+
+        .content1 {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 40px; /* Adds space below the heading */
+        }
+
+        .content2 {
+            font-size: 20px;
+            font-weight: normal;
+            color: black;
+            text-align: center;
+            max-width: 90%;
+        }
+
+        /* Clickable Contact Number Styling */
+        .contact-number {
+            font-size: 22px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .contact-number a {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+        }
+
+        .contact-number a:hover {
+            color: black;
+        }
+
+        /* Button Styling */
+        .support-button {
+            margin-top: 20px;
+            padding: 12px 24px;
+            font-size: 18px;
+            font-weight: bold;
+            color: black;
+            background-color: #c6e2e9;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        
+    </style>
+</head>
+<body>
+
+    <!-- Upper Half -->
+    <div class="upper-half">
+        <div class="upper-text-container">
+            <div class="text1">Get in touch</div>
+            <div class="text2">Want to get in touch? We'd love to hear from you. You can reach us.</div>
+        </div>
+    </div>
+
+    <!-- Lower Half with Overlapping Boxes -->
+    <div class="lower-half">
+        <!-- Box 1 - Talk to Sales with Clickable Contact Number -->
+        <div class="box">
+            <div class="content1">Talk to Sales</div>
+            <div class="content2">Interested in HubSpot's software? Just pick up the phone to chat with a member of our sales team.</div>
+            <div class="contact-number">📞 Call us: <a href="tel:+18005551234">+1 (800) 555-1234</a></div>
+        </div>
+
+        <!-- Box 2 - Contact Customer Support with Button -->
+        <div class="box">
+            <div class="content1">Contact Customer Support</div>
+            <div class="content2">Sometimes you need a little help from your friends. Or a HubSpot support rep. Don't worry... we're here for you.</div>
+            <button class="support-button" onclick="window.location.href='support.html'">Get Support</button>
+             
+
+        </div>
+    </div>
+
+</body>
+</html>

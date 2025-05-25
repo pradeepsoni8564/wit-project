@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Settings Page</title>
+  <style>
+    body {
+      margin: 0; font-family: 'Segoe UI', sans-serif;
+      background: #c6e2e9;
+    }
+    .settings-container {
+      max-width: 500px;
+      margin: 40px auto;
+      background: #4994bc;
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.15);
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      min-height: 600px;
+    }
+    label {
+      font-size: 18px;
+      margin-bottom: 8px;
+      display: block;
+      text-align: left;
+    }
+    input[type="text"],
+    input[type="email"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+      box-sizing: border-box;
+      resize: vertical;
+      background-color: #cfebf1;
+      color: black;
+      font-size: 18px;
+    }
+    textarea {
+      min-height: 80px;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .avatar-preview {
+      margin: 0 auto 20px;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid black;
+      cursor: pointer;
+      position: relative;
+    }
+    .avatar-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      display: block;
+    }
+    input[type="file"] {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+    .btn {
+      background: #cfebf1;
+      color: black;
+      border: none;
+      border-radius: 30px;
+      padding: 12px 30px;
+      cursor: pointer;
+      font-size: 18px;
+      transition: background 0.2s ease;
+      margin-top: 10px;
+    }
+    .btn:hover {
+      background: grey;
+    }
+    .back-btn {
+      background: transparent;
+      color: black;
+      border: none;
+      text-decoration: underline;
+      cursor: pointer;
+      margin-bottom: 20px;
+      font-size: 16px;
+      align-self: flex-start;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="settings-container">
+    <button class="back-btn" onclick="location.href='profile.html'">&larr; Back to Profile</button>
+
+    <div class="avatar-preview" title="Click to change profile picture">
+      <img id="previewAvatar" src="https://i.imgur.com/3ZQ3Z9U.png" alt="Avatar Preview" />
+      <input type="file" id="uploadAvatar" accept="image/*" />
+    </div>
+
+    <label for="displayNameInput">Display Name</label>
+    <input type="text" id="displayNameInput" placeholder="Enter your name" />
+
+    <label for="usernameInput">Username</label>
+    <input type="text" id="usernameInput" placeholder="Enter your username" />
+
+    <label for="emailInput">Email</label>
+    <input type="email" id="emailInput" placeholder="Enter your email" />
+
+    <label for="bioInput">Bio</label>
+    <textarea id="bioInput" placeholder="Write something about yourself..."></textarea>
+
+    <button class="btn" id="saveBtn">Save Changes</button>
+  </div>
+
+  <script>
+    // Load current settings
+    window.onload = () => {
+      document.getElementById("previewAvatar").src = localStorage.getItem("avatar") || "https://i.imgur.com/3ZQ3Z9U.png";
+      document.getElementById("displayNameInput").value = localStorage.getItem("displayName") || "";
+      document.getElementById("usernameInput").value = localStorage.getItem("username") || "";
+      document.getElementById("emailInput").value = localStorage.getItem("email") || "";
+      document.getElementById("bioInput").value = localStorage.getItem("bio") || "";
+    };
+
+    // Handle avatar upload preview & save
+    document.getElementById("uploadAvatar").addEventListener("change", function(event) {
+      const file = event.target.files[0];
+      if (file && file.type.startsWith("image/")) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById("previewAvatar").src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        alert("Please select a valid image file.");
+      }
+    });
+
+    // Save button click handler
+    document.getElementById("saveBtn").addEventListener("click", () => {
+      // Save avatar if changed
+      const avatarSrc = document.getElementById("previewAvatar").src;
+      localStorage.setItem("avatar", avatarSrc);
+
+      // Save other settings
+      localStorage.setItem("displayName", document.getElementById("displayNameInput").value.trim());
+      localStorage.setItem("username", document.getElementById("usernameInput").value.trim());
+      localStorage.setItem("email", document.getElementById("emailInput").value.trim());
+      localStorage.setItem("bio", document.getElementById("bioInput").value.trim());
+
+      alert("Settings saved!");
+      location.href = "profile.html";
+    });
+  </script>
+</body>
+</html>

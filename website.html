@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MEMORIA | Digital Memory Books</title>
+  <link rel="stylesheet" href="CSS/style.css" />
+</head>
+
+<body>
+  <div class="left">
+     <div class="close">
+            <img src="icon/close.svg" alt="">
+    </div>
+    <ul>
+      <li>
+        <a href="website.html">
+          <div><img src="icon/home.svg" alt=""></div>
+          <div>Home</div>
+        </a>
+      </li>
+      <li>
+        <a href="profile.html">
+        <div><img class="invert" src="icon/profile.svg" alt=""></div>
+        <div>Profile</div>
+        </a>
+      </li>
+      <li>
+        <a href="contact.html">
+        <div><img src="icon/service.svg" alt=""></div>
+        <div>Contact Us</div>
+      </a>
+      </li>
+      <li>
+        <a href="about.html">
+          <div><img class="invert" src="icon/about.svg" alt=""></div>
+          <div>About Us</div>
+        </a>
+      </li>
+      <li>
+        <a href="profile.html">
+          <div><img class="invert" src="icon/logout.svg" alt=""></div>
+          <div>Logout</div>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <div><img src="icon/setting.svg" alt=""></div>
+        <div>Setting</div>
+        </a>
+      </li>
+    </ul>
+    
+    
+    
+    </div>
+  <header class="hero">
+    <nav class="navbar">
+      <div class="hamburger">
+          <div><img src="icon/hamburger.svg" alt=""></div>
+          <div class="logo">MEMORIA</div>
+        </div> 
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#get-started">Get Started</a></li>
+      </ul>
+    </nav>
+    
+    <div class="hero-content">
+      <h1>Preserve Your Memories</h1>
+      <p>Create beautiful digital memory books and share your life story.</p>
+      <a href="#get-started" class="btn">Start Your Book</a>
+    </div>
+   
+  </header>
+
+  <section class="image" id="image"><img src="photo/background2.png" alt="">
+  </section>
+
+<section class="features" id="features">
+  <h2>What MEMORIA Offers</h2>
+  <div class="features-grid">
+    <!-- Card 1 -->
+     <a target="_blank" href="upload.html" style="text-decoration: none; color: inherit;">
+    <div class="feature-card" >
+      <img src="photo/background1.png" alt="Photo Uploads">
+      <h3>Photo Uploads</h3>
+      <p>Organize and upload your precious moments with ease.</p>
+    </div>
+    </a>
+
+    <!-- Card 2 -->
+    <div class="feature-card">
+      <img src="photo/background3.png" alt="Custom Journaling">
+      <h3>Custom Journaling</h3>
+      <p>Write stories and captions to add depth to your images.</p>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="feature-card">
+      <img src="photo/background4.png" alt="Interactive Maps">
+      <h3>Interactive Maps</h3>
+      <p>Mark where your memories happened around the world.</p>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="feature-card">
+      <img src="photo/background5.png" alt="Private & Shared Books">
+      <h3>Private & Shared Books</h3>
+      <p>Keep your memories private or share them with loved ones.</p>
+    </div>
+  </div>
+</section>
+
+
+  <section class="how-it-works" id="how-it-works">
+    <h1>How It Works</h1>
+    <ol>
+      <li>Sign up and create your profile</li>
+      <li>Start a new memory book</li>
+      <li>Add photos, notes, and stories</li>
+      <li>Organize by dates or events</li>
+      <li>Invite family and friends to view or contribute</li>
+    </ol>
+  </section>
+
+  <section class="cta" id="get-started">
+    <div class="cta-content">
+      <h2>Begin Your Memory Book Today</h2>
+      <p>Join thousands of users in capturing life’s moments in a unique, personal way.</p>
+    </div>
+    <a href="SignUp_LogIn_Form.html" class="btn">Sign Up Now</a>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <p>&copy; 2025 MEMORIA. All rights reserved.</p>
+      <ul>
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Terms</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </footer>
+  <script>
+     document.querySelector(".hamburger").addEventListener("click",()=>{
+    document.querySelector(".left").style.left = "0"
+  })
+  document.querySelector(".close img").addEventListener("click",()=>{
+    document.querySelector(".left").style.left = "-100%"
+  })
+
+  </script>
+</body>
+
+</html>

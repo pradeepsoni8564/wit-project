@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memoria - Photos</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: white;
+      display: flex;
+      height: 100vh;
+      overflow:scroll;
+    }
+
+    .sidebar {
+  width: 280px; /* Wider */
+  background-color: #202124;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #333;
+}
+
+.sidebar h3 {
+  color: #d3c9c9;
+  font-size: 18px;
+  margin: 20px 24px 8px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0 0 0 12px;
+  margin: 0;
+}
+
+.sidebar li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 24px;
+  color: white;
+  border-radius: 24px;
+  margin: 4px 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.sidebar li:hover {
+  background-color: #303134;
+}
+
+.sidebar li.active {
+  background-color: #1967d2;
+  color: white;
+}
+
+.sidebar li svg {
+  width: 20px;
+  height: 20px;
+}
+
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      color: white;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .nav-item:hover,
+    .nav-item.active {
+      background-color: #2c2c2c;
+      border-left: 4px solid #1a73e8;
+    }
+
+    .nav-item i {
+      margin-right: 16px;
+    }
+
+    .main {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .topbar {
+  display: flex;
+  align-items: center;
+  padding: 12px 24px;
+  background-color: #202124;
+  border-bottom: 1px solid #333;
+}
+
+.topbar input {
+  flex: 1;
+  padding: 10px 16px;
+  border-radius: 24px;
+  border: none;
+  background-color: #303134;
+  color: white;
+  font-size: 16px;
+}
+    
+
+    .upload-btn {
+      background-color: #1a73e8;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-bottom: 20px;
+    }
+
+    .photos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .photo-container {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 16px; /* Increased rounding */
+  background-color: #2a2a2a; /* optional: to show corner rounding even if image has transparency */
+}
+
+
+    .photo-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .favorite-icon {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 50%;
+      padding: 5px;
+      cursor: pointer;
+      color: white;
+      font-size: 18px;
+    }
+
+    .favorite-icon.active {
+      color: red;
+    }
+
+    .tooltip {
+      position: absolute;
+      top: 90px;
+      left: 320px;
+      background-color: #3c3cfc;
+      padding: 10px 20px;
+      border-radius: 8px;
+      color: white;
+    }
+
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+  background-color: #2c2c2c;
+  padding: 20px;
+  border-radius: 16px; /* More round */
+  max-width: 90%;
+  max-height: 90%;
+  text-align: center;
+}
+
+
+    .modal-content img {
+      max-width: 100%;
+      max-height: 70vh;
+      margin-bottom: 20px;
+    }
+
+    .modal-buttons button {
+      background-color: #1a73e8;
+      color: white;
+      padding: 10px 15px;
+      margin: 0 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .content-section {
+  display: none;
+  color: white;
+  /* you can add padding/margin or grid styling as needed */
+}
+.tooltip,
+.upload-btn,
+.modal-buttons button {
+  border-radius: 12px !important;
+}
+
+
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Memoria</h2>
+    <div class="sidebar">
+  <ul>
+    <li>    <div class="nav-item active" id="nav-photos" onclick="showSection('photosSection', this)"><i>📷</i> Photos</div></li>
+    <li><div class="nav-item" id="nav-updates" onclick="showSection('updatesSection', this)"><i>🔔</i> Updates</div></li>
+  </ul>
+
+  <h3>Collections</h3>
+  <ul>
+    <li><div class="nav-item" id="nav-albums" onclick="showSection('albumsSection', this)"><i>📁</i> Albums</div></li>
+    <li><div class="nav-item" id="nav-documents" onclick="showSection('documentsSection', this)"><i>📄</i> Documents</div></li>
+    <li><div class="nav-item" id="nav-favorites" onclick="showSection('favoritesSection', this)"><i>⭐</i> Favorites</div></li>
+    <li><div class="nav-item" id="nav-places" onclick="showSection('placesSection', this)"><i>📍</i> Places</div></li>
+    <li><div class="nav-item" id="nav-videos" onclick="showSection('videosSection', this)"><i>🎥</i> Videos</div></li>
+    <li><div class="nav-item" id="nav-recent" onclick="showSection('recentSection', this)"><i>🕒</i> Recently added</div></li>
+  </ul>
+  
+</div>
+    
+  </div>
+  <div class="main">
+    <div class="topbar">
+  <input type="text" placeholder="Search your photos and albums">
+</div>
+
+    <button class="upload-btn" onclick="document.getElementById('fileInput').click()">Upload Photo</button>
+    <input type="file" id="fileInput" accept="image/*" style="display:none" multiple onchange="handleUpload(event)">
+    <div id="photosSection" class="photos-grid"></div>
+    <div id="favoritesSection" class="photos-grid" style="display: none;"></div>
+  </div>
+
+  <div id="photoModal" class="modal" style="display:none">
+    <div class="modal-content">
+      <img id="modalImg" src="" alt="Preview">
+      <div class="modal-buttons">
+  <button onclick="deletePhoto()">Delete</button>
+  <button onclick="sharePhoto()">Share</button>
+  <button onclick="editPhoto()">Edit</button>
+  <button onclick="addToSection('albumsSection')">Add to Album</button>
+  <button onclick="addToSection('documentsSection')">Add to Documents</button>
+  <button onclick="closeModal()">Close</button>
+</div>
+
+    </div>
+  </div>
+  
+
+
+  <script>
+    let currentImageElement = null;
+
+    function navigate(section) {
+      alert(`Navigate to: ${section}`);
+    }
+
+    function showSection(id, el) {
+  // Hide all sections
+  const sections = document.querySelectorAll('.photos-grid, .content-section');
+  sections.forEach(section => section.style.display = 'none');
+
+  // Show selected section
+  document.getElementById(id).style.display = (id === 'photosSection' || id === 'favoritesSection') ? 'grid' : 'block';
+
+  // Update active nav item highlight
+  document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+  el.classList.add('active');
+}
+
+
+    function handleUpload(event) {
+      const files = event.target.files;
+      const photosSection = document.getElementById('photosSection');
+
+      Array.from(files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const container = createPhotoElement(e.target.result);
+          photosSection.appendChild(container);
+        }
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function createPhotoElement(src) {
+      const container = document.createElement('div');
+      container.className = 'photo-container';
+
+      const img = document.createElement('img');
+      img.src = src;
+      img.onclick = () => openModal(img);
+
+      const favIcon = document.createElement('div');
+      favIcon.className = 'favorite-icon';
+      favIcon.innerHTML = '❤';
+      favIcon.onclick = (ev) => {
+        ev.stopPropagation();
+        favIcon.classList.toggle('active');
+        if (favIcon.classList.contains('active')) {
+          const favClone = container.cloneNode(true);
+          favClone.querySelector('img').onclick = () => openModal(favClone.querySelector('img'));
+          favClone.querySelector('.favorite-icon').onclick = () => favClone.remove();
+          document.getElementById('favoritesSection').appendChild(favClone);
+        }
+      };
+
+      container.appendChild(img);
+      container.appendChild(favIcon);
+      return container;
+    }
+
+    function openModal(img) {
+      currentImageElement = img;
+      document.getElementById('modalImg').src = img.src;
+      document.getElementById('photoModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('photoModal').style.display = 'none';
+    }
+
+    function deletePhoto() {
+      if (currentImageElement) {
+        currentImageElement.parentElement.remove();
+        closeModal();
+      }
+    }
+
+    function sharePhoto() {
+      if (currentImageElement) {
+        navigator.clipboard.writeText(currentImageElement.src);
+        alert('Image link copied to clipboard!');
+      }
+    }
+
+    function editPhoto() {
+      alert('Edit functionality coming soon!');
+    }
+    // Load photos from localStorage on page load
+window.onload = () => {
+  loadPhotosFromStorage();
+};
+
+function loadPhotosFromStorage() {
+  const savedPhotos = JSON.parse(localStorage.getItem('photos')) || [];
+  const photosSection = document.getElementById('photosSection');
+  photosSection.innerHTML = ''; // Clear existing photos
+
+  savedPhotos.forEach(photoData => {
+    const container = createPhotoElement(photoData.src, photoData.isFavorite);
+    photosSection.appendChild(container);
+    // If photo was favorite, add it also to favorites section
+    if (photoData.isFavorite) {
+      addPhotoToFavorites(container);
+    }
+  });
+}
+
+function savePhotosToStorage() {
+  const photosSection = document.getElementById('photosSection');
+  const photos = photosSection.querySelectorAll('.photo-container');
+  const photosArray = [];
+
+  photos.forEach(photo => {
+    const img = photo.querySelector('img');
+    const favIcon = photo.querySelector('.favorite-icon');
+    photosArray.push({
+      src: img.src,
+      isFavorite: favIcon.classList.contains('active'),
+    });
+  });
+
+  localStorage.setItem('photos', JSON.stringify(photosArray));
+}
+
+function handleUpload(event) {
+  const files = event.target.files;
+  const photosSection = document.getElementById('photosSection');
+
+  Array.from(files).forEach(file => {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const container = createPhotoElement(e.target.result);
+      photosSection.appendChild(container);
+      savePhotosToStorage(); // Save after adding new photo
+    }
+    reader.readAsDataURL(file);
+  });
+}
+
+function createPhotoElement(src, isFavorite = false) {
+  const container = document.createElement('div');
+  container.className = 'photo-container';
+
+  const img = document.createElement('img');
+  img.src = src;
+  img.onclick = () => openModal(img);
+
+  const favIcon = document.createElement('div');
+  favIcon.className = 'favorite-icon';
+  favIcon.innerHTML = '❤';
+  if (isFavorite) favIcon.classList.add('active');
+
+  favIcon.onclick = (ev) => {
+    ev.stopPropagation();
+    favIcon.classList.toggle('active');
+    if (favIcon.classList.contains('active')) {
+      addPhotoToFavorites(container);
+    } else {
+      removePhotoFromFavorites(container);
+    }
+    savePhotosToStorage();
+  };
+
+  container.appendChild(img);
+  container.appendChild(favIcon);
+  return container;
+}
+
+function addPhotoToFavorites(container) {
+  const favClone = container.cloneNode(true);
+  favClone.querySelector('img').onclick = () => openModal(favClone.querySelector('img'));
+
+  // Favorite icon in clone toggles removal from favorites only
+  const favIcon = favClone.querySelector('.favorite-icon');
+  favIcon.onclick = (ev) => {
+    ev.stopPropagation();
+    favClone.remove();
+    // Also un-favorite original photo's icon
+    const originalPhotos = document.querySelectorAll('#photosSection .photo-container');
+    originalPhotos.forEach(photo => {
+      if (photo.querySelector('img').src === favClone.querySelector('img').src) {
+        photo.querySelector('.favorite-icon').classList.remove('active');
+      }
+    });
+    savePhotosToStorage();
+  };
+
+  document.getElementById('favoritesSection').appendChild(favClone);
+}
+
+function removePhotoFromFavorites(container) {
+  // Find favorite photo with same src in favoritesSection and remove it
+  const favSection = document.getElementById('favoritesSection');
+  const favPhotos = favSection.querySelectorAll('.photo-container');
+  favPhotos.forEach(photo => {
+    if (photo.querySelector('img').src === container.querySelector('img').src) {
+      photo.remove();
+    }
+  });
+}
+
+function deletePhoto() {
+  if (currentImageElement) {
+    // Remove from photosSection or favoritesSection
+    const srcToDelete = currentImageElement.src;
+
+    // Remove from photosSection
+    const photosSection = document.getElementById('photosSection');
+    const photos = photosSection.querySelectorAll('.photo-container');
+    photos.forEach(photo => {
+      if (photo.querySelector('img').src === srcToDelete) {
+        photo.remove();
+      }
+    });
+
+    // Remove from favoritesSection
+    const favoritesSection = document.getElementById('favoritesSection');
+    const favPhotos = favoritesSection.querySelectorAll('.photo-container');
+    favPhotos.forEach(photo => {
+      if (photo.querySelector('img').src === srcToDelete) {
+        photo.remove();
+      }
+    });
+
+    savePhotosToStorage();
+    closeModal();
+  }
+}
+function addToSection(sectionId) {
+  if (!currentImageElement) return;
+
+  const section = document.getElementById(sectionId);
+  const existingImages = Array.from(section.querySelectorAll('img')).map(img => img.src);
+
+  // Avoid duplication
+  if (existingImages.includes(currentImageElement.src)) {
+    alert('This photo is already in the selected section.');
+    return;
+  }
+
+  // Clone photo element
+  const originalContainer = currentImageElement.parentElement;
+  const clone = originalContainer.cloneNode(true);
+
+  // Update event handlers
+  clone.querySelector('img').onclick = () => openModal(clone.querySelector('img'));
+  const favIcon = clone.querySelector('.favorite-icon');
+  if (favIcon) {
+    favIcon.onclick = (ev) => {
+      ev.stopPropagation();
+      favIcon.classList.toggle('active');
+    };
+  }
+
+  section.appendChild(clone);
+  alert('Photo added successfully!');
+}
+
+  </script>
+</body>
+</html>
