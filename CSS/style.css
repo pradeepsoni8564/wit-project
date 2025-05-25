@@ -186,27 +186,28 @@ body {
   font-size: 1.50rem;
 }
 
-/* How It Works */
-.how-it-works {
-  height: 400px;
-  padding: 4rem 2rem;
-  text-align: center;
-  background: url('background8.jpg');
+/* Background image banner section */
+.how-it-works-banner {
+  background: url('background8.jpg') no-repeat center center;
   background-size: cover;
-  color: rgb(0, 0, 0);
-  
+  height: 400px;
+  width: 100%;
 }
 
-.how-it-works ol {
-  list-style-position: inside;
-  max-width: 600px;
+/* Text content section */
+.how-it-works {
+  padding: 2rem;
+  max-width: 800px;
   margin: 0 auto;
   text-align: left;
-  font-size:x-large;
+  font-size: x-large;
   font-weight: bold;
+  color: black;
 }
-.how-it-works h1{
+
+.how-it-works h1 {
   font-size: 2.5rem;
+  text-align: center;
 }
 
 /* CTA */
